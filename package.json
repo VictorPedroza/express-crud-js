@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "_moduleAliases": {
     "@": "./src",
-    "@app": "./src/app"
+    "@app": "./src/app",
+    "@config": "./src/config"
   },
   "scripts": {
     "start": "node src/server.js",
