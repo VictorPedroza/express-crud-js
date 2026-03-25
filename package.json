@@ -1,0 +1,24 @@
+{
+  "name": "express-crud",
+  "version": "1.0.0",
+  "description": "API RESTful com Node.js em Express",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictorPedroza/express-crud-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/VictorPedroza/express-crud-js/issues"
+  },
+  "homepage": "https://github.com/VictorPedroza/express-crud-js#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
