@@ -1,4 +1,6 @@
-const app = require("./app/app");
+require('module-alias/register');
+
+const app = require("@app/app");
 
 function startServer() {
     const baseLog = `
