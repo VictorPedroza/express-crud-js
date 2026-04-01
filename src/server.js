@@ -6,12 +6,14 @@ const { database } = require("@config/database");
 
 // * Função para Inicializar o Servidor
 async function startServer() {
-  // TODO: Inicializar o conexão com Banco de Dados
+  // * Conexão com o Banco de Dados
   const dbConnection = await database.connect();
 
+  // Utilitários
   const startTime = new Date().toLocaleString();
   const isProd = env.environment === "production";
 
+  // * Log de Status do Servidor
   const baseLog = `
 =========================================
     ✅ API Status: ONLINE
