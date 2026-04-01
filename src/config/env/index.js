@@ -1,5 +1,6 @@
+// * Configurações de ambiente
 const env = {
-    enviroment: process.env.NODE_ENV,
+    environment: process.env.NODE_ENV,
     port: process.env.PORT
 }
 
