@@ -1,18 +1,44 @@
 const mysql = require("mysql2/promise");
 const { env } = require("@config/env");
 
+/**
+ * Database - Class responsável por gerenciar a conexão com o Banco de Dados
+ * 
+ * @class
+ * 
+ * @author Vicor Pedroza <victor.pedroza@protonmail.com>
+ * @since 2026-04-01
+ * @version 1.0.0
+ **/
 class Database {
   constructor() {
     this.promisePool = null;
   }
 
+  /**
+   * connect - Método para realizar a conexão com o Banco de Dados
+   * 
+   * @async
+   * @function connect
+   * 
+   * @returns {Promise<{success: boolean, message: string, error?: string}>} Resultado da conexão
+   * 
+   * @example
+   * const connection = await database.connect();
+   * if (connection.success) {
+   *  console.log(connection.message);
+   * } else {
+   *  console.error(connection.error || connection.message);
+   * }
+   * 
+   * **/
   async connect() {
     // Validação para evitar múltiplas conexões
     if (this.promisePool) {
       return {
         success: true,
         message: "Database already connected.",
-      }
+      };
     }
 
     // Validação de variáveis de ambiente
@@ -52,7 +78,7 @@ class Database {
         message: "Database connected successfully.",
       };
     } catch (err) {
-      // Verifica o ambiente para 
+      // Verifica o ambiente para
       const isProd = env.environment === "production";
 
       // Retorna erro. (Sem detalhes em produção)
