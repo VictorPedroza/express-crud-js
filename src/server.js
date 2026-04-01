@@ -24,7 +24,7 @@ async function startServer() {
 -----------------------------------------
   🛜  Database Connection: ${dbConnection.success ? "✅ SUCCESS" : "❌ FAILED"}
   ${!isProd && dbConnection.message ? `📝 DB Message: ${dbConnection.message}` : ""}
-  ${(!isProd || !dbConnection.success) && dbConnection.error ? `❌ Error: ${dbConnection.error}` : ""}
+  ${(!dbConnection.success) ? `❌ Error: ${isProd ? "Check server logs" : dbConnection.error}` : ""}
 
 =========================================
     `;

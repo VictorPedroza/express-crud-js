@@ -80,6 +80,7 @@ class Database {
     } catch (err) {
       // Verifica o ambiente para
       const isProd = env.environment === "production";
+      console.error("[Database Connection Error]", err);
 
       // Retorna erro. (Sem detalhes em produção)
       return {
