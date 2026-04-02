@@ -19,7 +19,7 @@ class Database {
    * connect - Método para realizar a conexão com o Banco de Dados
    *
    * @async
-   * @function connect
+   * @method connect
    *
    * @returns {Promise<{success: boolean, message: string, error?: string}>} Resultado da conexão
    *
@@ -91,7 +91,26 @@ class Database {
     }
   }
 
-  // * Método de query para facilitar as operações no banco de dados
+  /**
+   * query - Método para executar uma query no Banco de Dados
+   *
+   * @async
+   * @method query
+   *
+   * @param {string} sql - A query SQL a ser executada
+   * @param {Array} params - Os parâmetros para a query (opcional)
+   *
+   * @return {Promise<{success: boolean, data?: any, message?: string, error?: string}>} Resultado da execução da query
+   *
+   * @example
+   * const result = await database.query("SELECT * FROM users WHERE id = ?", [userId]);
+   * if (result.success) {
+   *  console.log(result.data);
+   * } else {
+   *  console.error(result.error);
+   * }
+   *
+   * **/
   async query(query, params) {
     // Inicializa a conexão se ainda não estiver conectada
     if (!this.promisePool) {
