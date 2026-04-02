@@ -100,7 +100,7 @@ class Database {
    * @param {string} sql - A query SQL a ser executada
    * @param {Array} params - Os parâmetros para a query (opcional)
    *
-   * @return {Promise<{success: boolean, data?: any, message?: string, error?: string}>} Resultado da execução da query
+   * @returns {Promise<{success: boolean, data?: any, message?: string, error?: string}>} Resultado da execução da query
    *
    * @example
    * const result = await database.query("SELECT * FROM users WHERE id = ?", [userId]);
@@ -148,7 +148,64 @@ class Database {
     }
   }
 
-  // TODO: Implementar método de teste de conexão
+  /**
+   * testConnection - Método para testar a conexão com o Banco de Dados
+   *
+   * @async
+   * @method testConnection
+   *
+   * @returns {Promise<{ success: boolean, message: string, latency?: number, error?: string }>} Resultado do teste de conexão
+   *
+   * @example
+   * const result = await database.testConnection();
+   * if (result.success) {
+   *  console.log(result.message, `Latency: ${result.latency}ms`);
+   * } else {
+   *  console.error(result.error);
+   * }
+   *
+   * **/
+  async testConnection() {
+    // Inicializa a conexão se ainda não estiver conectada
+    if (!this.promisePool) {
+      await this.connect();
+    }
+
+    let connection;
+
+    try {
+      // Inicia a contagem de tempo para medir a latência da conexão
+      const startTime = Date.now();
+
+      // Obtém uma conexão do pool e executa uma query simples para testar a conexão
+      connection = await this.promisePool.getConnection();
+      // Executa uma query simples para testar a conexão
+      connection.execute("SELECT 1");
+
+      // Calcula a latência da conexão
+      const latency = Date.now() - startTime;
+
+      // Retorna o resultado do teste de conexão com a latência
+      return {
+        success: true,
+        message: `Database connection is healthy`,
+        latency: latency,
+      };
+    } catch (err) {
+      // Verifica o ambiente para decidir se deve mostrar detalhes do erro
+      const isProd = env.environment === "production";
+      // Loga o erro no console (com detalhes) e retorna uma mensagem genérica para produção
+      console.error("[Database Connection Error]", err);
+      return {
+        success: false,
+        message: "Failed to test database connection.",
+        error: isProd ? undefined : err.message,
+      };
+    } finally {
+      // Garante que a conexão seja liberada
+      if (connection) connection.release();
+    }
+  }
   // TODO: Implementar método de fechamento de conexão
 }
 
