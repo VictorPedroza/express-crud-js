@@ -206,7 +206,38 @@ class Database {
       if (connection) connection.release();
     }
   }
-  // TODO: Implementar método de fechamento de conexão
+  /**
+   * disconnect - Método para fechar a conexão com o Banco de Dados
+   *
+   * @async
+   * @method disconnect
+   *
+   * @returns {Promise<{ success: boolean, message: string }>} Resultado do fechamento da conexão
+   *
+   * @example 
+   * const result = await database.disconnect();
+   * if (result.success) {
+   *  console.log(result.message);
+   * } else {
+   *  console.error(result.message);
+   * }
+   * 
+   * **/
+  async disconnect() {
+    if (this.promisePool) {
+      await this.promisePool.end();
+      this.promisePool = null;
+
+      return {
+        success: true,
+        message: "Database connection closed successfully.",
+      }
+    }
+    return {
+      success: false,
+      message: "No database connection to close.",
+    }
+  }
 }
 
 module.exports = Database;
