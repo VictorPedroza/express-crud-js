@@ -32,9 +32,17 @@ class BaseRepository {
    **/
   async findAll() {
     try {
+      // Executa a query para buscar todos os registros da tabela
       const [result] = await this.database.query(
         `SELECT * FROM \`${this.table}\``,
       );
+
+      // Verifica se o resultado é vazio e retorna uma resposta adequada
+      if (!result.length) {
+        return { success: true, data: [] };
+      }
+
+      // Retorna os dados encontrados
       return { success: true, data: result };
     } catch (err) {
       console.error(`[${this.table} Repository] Error in findAll:`, err);
@@ -156,6 +164,10 @@ class BaseRepository {
         [data, id],
       );
 
+      if (result.affectedRows === 0) {
+        return { success: false, error: "Not found." };
+      }
+
       // Retorna o resultado da atualização
       return { success: true, data: result };
     } catch (err) {
@@ -190,6 +202,10 @@ class BaseRepository {
         `DELETE FROM \`${this.table}\` WHERE id = ?`,
         [id],
       );
+
+      if (result.affectedRows === 0) {
+        return { success: false, error: "Not found." };
+      }
 
       return { success: true, data: result };
     } catch (err) {
