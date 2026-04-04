@@ -4,7 +4,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@app/*": ["src/app/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@shared/*": ["src/shared/*"],
+      "@product/*": ["src/modules/product/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

@@ -6,7 +6,9 @@
   "_moduleAliases": {
     "@": "./src",
     "@app": "./src/app",
-    "@config": "./src/config"
+    "@config": "./src/config",
+    "@shared": "./src/shared",
+    "@product": "./src/modules/product"
   },
   "scripts": {
     "start": "node src/server.js",
@@ -28,7 +30,8 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "module-alias": "^2.3.4",
-    "mysql2": "^3.20.0"
+    "mysql2": "^3.20.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "dotenv-cli": "^11.0.0",
