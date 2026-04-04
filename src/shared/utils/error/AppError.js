@@ -1,10 +1,10 @@
 class AppError extends Error {
-    constructor({message, statusCode = 500, code = "INTERNAL_ERROR", type = "Error", details = []}) {
+    constructor({message = "Internal Error", statusCode = 500, code = "INTERNAL_ERROR", type = "Error", details = []}) {
         super(message);
 
-        this.statusCode = statusCode || 500;
-        this.code = code || "INTERNAL_ERROR";
-        this.type = type || "Error";
+        this.statusCode = statusCode
+        this.code = code 
+        this.type = type
         this.details = details || [];
         this.timestamp = new Date().toISOString();
         
