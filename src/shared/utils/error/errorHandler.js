@@ -1,9 +1,21 @@
 const { env } = require("@/config/env");
 const AppError = require("./AppError");
 
+/**
+ * errorHandler - Middleware de captura de Erros
+ * 
+ * @function errorHandler
+ * 
+ * @author VictorPedroza <victor.pedroza@protonmail.com>
+ * @since 2026-04-03
+ * @version 1.0.0
+ * 
+ **/ 
 function errorHandler(err, req, res, next) {
+  // Verifica o ambiente
   const isProd = env.environment === "production";
 
+  // Se for um erro do tipo AppError retorna uma response personalizada
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       status: "error",
@@ -15,10 +27,11 @@ function errorHandler(err, req, res, next) {
         details: err.details,
       },
       ...(isProd ? {} : { stack: err.stack }),
-      timestamps: new Date().toISOString(),
+      timestamps: err.timestamp,
     });
   }
 
+  // Se for um erro comum, retorna uma response base
   if (!(err instanceof AppError)) {
     return res.status(500).json({
       status: "error",
