@@ -1,3 +1,4 @@
 const validateCreateProduct = require("./validateCreateProduct")
+const validateUpdateProduct = require("./validateUpdateProduct")
 
-module.exports = { validateCreateProduct };
+module.exports = { validateCreateProduct, validateUpdateProduct };
