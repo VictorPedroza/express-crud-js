@@ -1,5 +1,5 @@
-import { AppError } from "@/shared/utils";
-import { ProductModel } from "@product/model";
+const { AppError } = require("@/shared/utils");
+const { ProductModel } = require("@product/model");
 
 /**
  * validateUpdateProduct - Middleware responsável por validar os dados de atualização de um produto.
