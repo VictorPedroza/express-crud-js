@@ -5,6 +5,9 @@
  * @since 2026-04-03
  * @version 1.0.0
  *
+ * @param {Object} model - Modelo da entidade que define a estrutura da tabela
+ * @param {Object} database - Conexão/instância do banco de dados
+ *
  **/
 class BaseRepository {
   constructor(model, database) {
@@ -72,10 +75,16 @@ class BaseRepository {
    **/
   async findById(id) {
     try {
-      const [result] = await this.database.query(
+      const result = await this.database.query(
         `SELECT * FROM \`${this.table}\` WHERE id = ?`,
         [id],
       );
+
+      // Se não encontrou, retorna null
+      if (!result || result.length === 0) {
+        return { success: true, data: null }; // ← IMPORTANTE: null, não undefined
+      }
+
       return { success: true, data: result[0] };
     } catch (err) {
       console.error(`[${this.table} Repository] Error in findById:`, err);
