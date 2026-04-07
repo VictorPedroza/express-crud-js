@@ -1,10 +1,22 @@
 const { AppError } = require("@shared/utils");
 const { productRepository } = require("@product/repositories");
 
+/**
+ * validateUpdateProduct - Middleware responsável por validar os dados de deletar um produto.
+ * 
+ * @function validateUpdateProduct
+ * 
+ * @author Victor Pedroza <victor242206@gmail.com>
+ * @since 2026-04-07
+ * @version 1.0.0
+ * 
+ **/
 const validateDeleteProduct = async (req, res, next) => {
+    // Busca o ID nos parametros da requisição
     const { id } = req.params;
 
-    try {
+    try {   
+        // Busca o ID no BD
         const result = await productRepository.findById(parseInt(id));
 
         // Verifica se NÃO encontrou o produto
