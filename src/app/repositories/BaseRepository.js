@@ -3,7 +3,7 @@
  *
  * @author Victor Pedroza <victor.pedroza@protonmail.com>
  * @since 2026-04-03
- * @version 1.0.0
+ * @version 1.0.1
  *
  * @param {Object} model - Modelo da entidade que define a estrutura da tabela
  * @param {Object} database - Conexão/instância do banco de dados
@@ -35,24 +35,24 @@ class BaseRepository {
    **/
   async findAll() {
     try {
-      // Executa a query para buscar todos os registros da tabela
-      const [result] = await this.database.query(
+      const result = await this.database.query(
         `SELECT * FROM \`${this.table}\``,
       );
 
-      // Verifica se o resultado é vazio e retorna uma resposta adequada
-      if (!result.length) {
+      if (!result.success) {
+        return { success: false, error: result.message };
+      }
+
+      if (!result.data.length) {
         return { success: true, data: [] };
       }
 
-      // Retorna os dados encontrados
-      return { success: true, data: result };
+      return { success: true, data: result.data };
     } catch (err) {
       console.error(`[${this.table} Repository] Error in findAll:`, err);
       return { success: false, error: "Failed to find all." };
     }
   }
-
   /**
    * findById - Método para buscar um registro por ID.
    *
@@ -129,7 +129,7 @@ class BaseRepository {
       const values = Object.values(data);
 
       // Executa a query de inserção
-      const [result] = await this.database.query(
+      const result = await this.database.query(
         `INSERT INTO \`${this.table}\` (${columns}) 
         VALUES (${placeholders})`,
         values,
@@ -168,7 +168,7 @@ class BaseRepository {
   async update(id, data) {
     try {
       // Executa a query de atualização
-      const [result] = await this.database.query(
+        const result = await this.database.query(
         `UPDATE \`${this.table}\` SET ? WHERE id = ?`,
         [data, id],
       );
@@ -207,7 +207,7 @@ class BaseRepository {
    **/
   async delete(id) {
     try {
-      const [result] = await this.database.query(
+      const result = await this.database.query(
         `DELETE FROM \`${this.table}\` WHERE id = ?`,
         [id],
       );
