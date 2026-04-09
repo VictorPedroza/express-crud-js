@@ -1,4 +1,5 @@
-const { BaseRepository } = require("@app/repositories")
+const { BaseRepository } = require("@app/repositories");
+const { success } = require("zod");
 
 /**
  * BaseRepository - Classe base para repositórios de dados.
@@ -17,14 +18,17 @@ class ProductRepository extends BaseRepository {
     }
 
     async findByName(name) {
-        try {
-            
-        const [result] = await this.database.query(
+        try {  
+        const result = await this.database.query(
             `SELECT * FROM \`${this.table}\` WHERE name = ? LIMIT 1`,
             [name]
         );
 
-        return { success: true, data: result[0] || null };
+        if (result.data.length <= 0) {
+            return { success: false  }
+        }
+
+        return { success: true, data: result.data[0] || null };
         } catch (err) {
             console.error(`[${this.table} Repository] Error to find by name:`, err);
             return { success: false, error: "Error to find by name" }
