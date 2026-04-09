@@ -14,7 +14,7 @@ CREATE TABLE products (
 
 CREATE INDEX idx_products_active ON products(active);
 
-INSERT INTO products (name, description, price, quantity, category) VALUES
+INSERT INTO products (name, description, price, stock, category) VALUES
 ('Smartphone', 'Smartphone Android 128GB', 2199.90, 25, 'Eletronicos');
 
 SELECT * FROM products;
