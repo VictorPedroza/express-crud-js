@@ -85,7 +85,7 @@ class BaseRepository {
         return { success: true, data: null }; // ← IMPORTANTE: null, não undefined
       }
 
-      return { success: true, data: result[0] };
+      return { success: true, data: result.data[0] };
     } catch (err) {
       console.error(`[${this.table} Repository] Error in findById:`, err);
       return { success: false, error: "Failed to find by ID." };
@@ -167,18 +167,28 @@ class BaseRepository {
    **/
   async update(id, data) {
     try {
+      const fields = Object.keys(data)
+        .map((key) => `\`${key}\` = ?`)
+        .join(", ");
+
+      const values = Object.values(data);
+
       // Executa a query de atualização
         const result = await this.database.query(
-        `UPDATE \`${this.table}\` SET ? WHERE id = ?`,
-        [data, id],
+        `UPDATE \`${this.table}\` SET ${fields} WHERE id = ?`,
+        [...values, id],
       );
+
+      if(!result.success) {
+        return { success: false, error: result.message || "Query failed" }
+      }
 
       if (result.affectedRows === 0) {
         return { success: false, error: "Not found." };
       }
 
       // Retorna o resultado da atualização
-      return { success: true, data: result };
+      return { success: true, data: data};
     } catch (err) {
       console.error(`[${this.table} Repository] Error in update:`, err);
       return { success: false, error: "Failed to update." };
