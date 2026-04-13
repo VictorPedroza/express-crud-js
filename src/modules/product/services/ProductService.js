@@ -64,7 +64,21 @@ class ProductService {
       message: "Product created successfully",
     };
   }
-  
+
+  /**
+   * update - Serviço de atualização de produto
+   * 
+   * @async 
+   * @function update
+   * 
+   * @param {number} id - Identificador do produto
+   * @param {Object} data - Dados a serem alterados do produto
+   * 
+   * @return {<{success: boolean, message: string, data: Object}>} Retorna uma mensagem de status da operação, uma mensagem e os dados alterados
+   * 
+   * @throws {AppError} Retorna os erros baseado na regra de negócio
+   * 
+   **/
   async update(id, data) {
     const parsedId = parseInt(id, 10);
 
