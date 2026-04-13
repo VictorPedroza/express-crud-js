@@ -111,7 +111,7 @@ class Database {
    * }
    *
    * **/
-  async query(query, params) {
+  async query(sql, params) {
     // Inicializa a conexão se ainda não estiver conectada
     if (!this.promisePool) {
       await this.connect();
@@ -124,7 +124,7 @@ class Database {
       connection = await this.promisePool.getConnection();
 
       // Executa a query com os parâmetros fornecidos
-      const [result] = await connection.execute(query, params);
+      const [result] = await connection.execute(sql, params);
       // Retorna o resultado da query
       return {
         success: true,
