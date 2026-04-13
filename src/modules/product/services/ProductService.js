@@ -64,9 +64,11 @@ class ProductService {
       message: "Product created successfully",
     };
   }
-
+  
   async update(id, data) {
-    const existing = await this.productRepository.findById(id);
+    const parsedId = parseInt(id, 10);
+
+    const existing = await this.productRepository.findById(parsedId);
 
     if (!existing.success) {
       throw new AppError({
@@ -76,7 +78,7 @@ class ProductService {
 
     if (!existing.data) {
       throw AppError.badRequest("Product not exists", {
-        id
+        id: parsedId
       });
     }
 
