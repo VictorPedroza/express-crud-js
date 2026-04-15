@@ -25,6 +25,16 @@ class ProductService {
     return { success: true, data: result.data };
   }
 
+  async getProductById(id) {
+    const result = await this.productRepository.findById(id);
+
+    if (!result.data) {
+      throw AppError.badRequest(`tThe product with id ${id} not found`)
+    }
+
+    return { success: true, data: result.data }
+  }
+
   /**
    * create - Serviço para criar produto na aplicação
    *
