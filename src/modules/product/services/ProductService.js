@@ -15,6 +15,17 @@ class ProductService {
     this.productRepository = productRepository;
   }
 
+  /**
+   * getProducts - Busca todos os produtos cadastrados
+   * 
+   * @async 
+   * @function getProducts
+   * 
+   * @returns {<{success: boolean, data: []}>} Retorna o status da operação e a lista de produtos
+   * 
+   * @throws {AppError} Retorna erro se não houver produtos cadastrados
+   * 
+   **/
   async getProducts() {
     const result = await this.productRepository.findAll();
 
@@ -25,6 +36,19 @@ class ProductService {
     return { success: true, data: result.data };
   }
 
+  /**
+   * getProducById - Serviço para buscar um produto pelo ID.
+   * 
+   * @async 
+   * @function getProductById
+   * 
+   * @param {number} id - Identificador do produto
+   *
+   * @returns {<{success: boolean, data: Object}>} Retorna o status da opereção
+   * 
+   * @throws {AppError} Retorna erro se produto não for encontrado
+   * 
+   **/
   async getProductById(id) {
     const result = await this.productRepository.findById(id);
 
