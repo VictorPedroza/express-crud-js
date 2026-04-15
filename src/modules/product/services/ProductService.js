@@ -15,6 +15,16 @@ class ProductService {
     this.productRepository = productRepository;
   }
 
+  async getProducts() {
+    const result = await this.productRepository.findAll();
+
+    if (result.data.length === 0) {
+      throw AppError.badRequest("Not found products");
+    }
+
+    return { success: true, data: result.data };
+  }
+
   /**
    * create - Serviço para criar produto na aplicação
    *
@@ -67,17 +77,17 @@ class ProductService {
 
   /**
    * update - Serviço de atualização de produto
-   * 
-   * @async 
+   *
+   * @async
    * @function update
-   * 
+   *
    * @param {number} id - Identificador do produto
    * @param {Object} data - Dados a serem alterados do produto
-   * 
+   *
    * @return {<{success: boolean, message: string, data: Object}>} Retorna uma mensagem de status da operação, uma mensagem e os dados alterados
-   * 
+   *
    * @throws {AppError} Retorna os erros baseado na regra de negócio
-   * 
+   *
    **/
   async update(id, data) {
     const parsedId = parseInt(id, 10);
@@ -92,7 +102,7 @@ class ProductService {
 
     if (!existing.data) {
       throw AppError.badRequest("Product not exists", {
-        id: parsedId
+        id: parsedId,
       });
     }
 
@@ -103,15 +113,15 @@ class ProductService {
     const result = await this.productRepository.update(id, data);
     if (!result.success) {
       throw AppError.badRequest("Error updating produc", {
-        error: result?.error
+        error: result?.error,
       });
     }
 
     return {
       success: true,
       message: "Product updated successfully.",
-      data: result.data
-    }
+      data: result.data,
+    };
   }
 }
 
